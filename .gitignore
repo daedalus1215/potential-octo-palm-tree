@@ -1,6 +1,12 @@
-.idea
-az/.idea
-az/bin
-az/include
-az/lib
+.idea/*
+az/.idea/*
+az/bin/*
+az/include/*
+az/lib/*
+az/jupyter/*
+az/share/*
+az/etc/*
 az/settings.json
+effective_p/bin/*
+effective_p/include/*
+effective_p/lib/*
