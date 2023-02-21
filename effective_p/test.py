@@ -1,10 +1,11 @@
 from urllib.parse import parse_qs
 from collections.abc import MutableMapping
+import SetDefaultVisits
+import DefaultDictVisit
 
 # key = 'my_var'
 # value = 1.234
 # print('%-1s = %.3f' % (key,value))
-
 
 
 pantry = [
@@ -32,12 +33,14 @@ print(int(red_str[0]) if red_str[0] else 0)
 opaicty_str = my_values.get('opacity', [''])
 print(int(opaicty_str[0]) if opaicty_str[0] else 0)
 
+
 def get_first_value(values, key, default=0):
     """ Let's check to make sure we have a value """
     found = values.get(key, [''])
     if found[0]:
         return int(found[0])
     return default
+
 
 print(get_first_value(my_values, 'red', 10))
 
@@ -48,12 +51,14 @@ favorite_snacks = {
 }
 
 ((type1, (name1, cals1)),
-(type2, (name2, cals2)),
-(type3, (name3, cals3))) = favorite_snacks.items()
+ (type2, (name2, cals2)),
+ (type3, (name3, cals3))) = favorite_snacks.items()
 
 print(f'Favorite {type1} is {name1} with {cals1} calories')
 
 print('---------------------')
+
+
 def bubble_sort(a_a):
     """ yes"""
     for _ in range(len(a_a)):
@@ -62,6 +67,7 @@ def bubble_sort(a_a):
                 temp = a_a[i]
                 a_a[i] = a_a[i-1]
                 a_a[i-1] = temp
+
 
 def bubble_sort2(a_a):
     """ yes"""
@@ -86,30 +92,31 @@ for rank, (name, calories) in enumerate(snacks, 1):
 
 for i, (item, count) in enumerate(pantry):
     print(f'#{i + 1}: '
-    f'{item.title():<10s} = '
-    f'{round(count)}')
+          f'{item.title():<10s} = '
+          f'{round(count)}')
 
 names = ['Cecilia', 'Lisa', 'Marie']
 counts = [len(n) for n in names]
 print(counts)
 
-max_count = 0;
+max_count = 0
 longest_name = ''
 for name, count in zip(names, counts):
     if count > max_count:
         longest_name = name
         max_count = count
-print(max_count);
+print(max_count)
 print(longest_name)
 
 
-count = 0;
+count = 0
 
 fresh_fruit = {
     'lemon': 10,
-    'oranges':12,
-    'apples':2
+    'oranges': 12,
+    'apples': 2
 }
+
 
 def make_lemonade(count):
     print(f'Making lemonade with: {count} count')
@@ -139,8 +146,10 @@ def slice_bananas(count):
     print(f'sliced bananas, returning {count} count')
     return count
 
+
 def make_smoothies(pieces):
     return f'making smoothies with {pieces} pieces'
+
 
 def make_cider(count):
     print(f'Making cider with {count} count')
@@ -149,7 +158,7 @@ def make_cider(count):
 
 count = 0
 
-if (count := fresh_fruit.get('banana', 0) >=2):
+if (count := fresh_fruit.get('banana', 0) >= 2):
     pieces = slice_bananas(count)
     to_enjoy = make_smoothies(pieces)
 elif (count := fresh_fruit.get('apple', 0) >= 4):
@@ -172,6 +181,7 @@ class Tool:
     def __repr__(self) -> str:
         return f'Tool({self.name}, {self.weight})'
 
+
 tools = [
     Tool('level', 3.5),
     Tool('hammer', 1.25),
@@ -189,6 +199,7 @@ votes = {
     'fox': 863
 }
 
+
 def populate_ranks(votes, ranks):
     """ check """
     names = list(votes.keys())
@@ -196,9 +207,11 @@ def populate_ranks(votes, ranks):
     for i, name in enumerate(names, 1):
         ranks[name] = i
 
+
 def get_winner(ranks):
     """ Return the first result from the dict, since it is expected to be in order due to ython 3.6+ """
     return next(iter(ranks))
+
 
 def get_winner_2(ranks):
     """ Sort the ranks, could be redundant - they might already be sorted - but covers the case of a custom iterable that is not a dict and cannot guarantee order of elements. """
@@ -206,11 +219,13 @@ def get_winner_2(ranks):
         if rank == 1:
             return name
 
+
 def get_winner_3(ranks):
     """ This will be faster than get_winner_2, since we will not be needlessly sorting ranks. """
     if not isinstance(ranks, dict):
         raise TypeError('must provide a dict instance')
     return next(iter(ranks))
+
 
 ranks = {}
 populate_ranks(votes, ranks)
@@ -219,18 +234,18 @@ winner = get_winner(ranks)
 print(winner)
 
 
-
 class SortedDict(MutableMapping):
     """Testing"""
+
     def __init__(self) -> None:
         self.data = {}
 
     def __getitem__(self, key):
         return self.data[key]
-    
+
     def __setitem__(self, key, value):
         self.data[key] = value
-    
+
     def __iter__(self):
         print(f'keys are = {self.data.keys()}')
         keys = list(self.data.keys())
@@ -241,12 +256,43 @@ class SortedDict(MutableMapping):
 
     def __delitem__(self, key):
         del self.data[key]
-        
+
     def __len__(self):
         return len(self.data)
+
 
 sorted_ranks = SortedDict()
 populate_ranks(votes, sorted_ranks)
 print(sorted_ranks.data)
 winner = get_winner(sorted_ranks)
-print(f'{next(iter(ranks))} {next(iter(ranks))}' )
+print(f'{next(iter(ranks))} {next(iter(ranks))}')
+
+print('------------------------')
+
+old_visits = {
+    'Mexico': {'Tulum', 'Puerto Vallarta'},
+    'Japan': {'Hakone'},
+}
+
+# Short way of setting a default, if no value exists for France
+old_visits.setdefault('France', set()).add('Aries')
+# Long way of setting a default, if no value exists for Japan
+if (japan := old_visits.get('Japan')) is None:
+    old_visits['Japan'] = japan = set()
+    japan.add('Koyoto')
+
+print(old_visits)
+
+print('------------------------')
+visit = SetDefaultVisits.Visits()
+visit.add('Russia', 'Yekaterinburg')
+visit.add('Tanzania', 'zanziba')
+visit.add('Tanzania', 'another')
+
+print(visit.data)
+
+print('------------------------')
+visit2 = DefaultDictVisit.Visits()
+visit2.add('England', 'Bath')
+visit2.add('England', 'London')
+print(visit2.data)
