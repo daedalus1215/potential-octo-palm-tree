@@ -67,8 +67,8 @@ def bubble_sort(a_a):
         for i in range(1, len(a_a)):
             if a_a[i] < a_a[i - 1]:
                 temp = a_a[i]
-                a_a[i] = a_a[i-1]
-                a_a[i-1] = temp
+                a_a[i] = a_a[i - 1]
+                a_a[i - 1] = temp
 
 
 def bubble_sort2(a_a):
@@ -85,12 +85,10 @@ tester = ['orange', 'green', 'blue']
 bubble_sort(tester)
 print(tester)
 
-
 snacks = [('bacon', 350), ('donut', 240), ('muffin', 190)]
 
 for rank, (name, calories) in enumerate(snacks, 1):
     print(f'#{rank}: {name} has {calories} calories')
-
 
 for i, (item, count) in enumerate(pantry):
     print(f'#{i + 1}: '
@@ -109,7 +107,6 @@ for name, count in zip(names, counts):
         max_count = count
 print(max_count)
 print(longest_name)
-
 
 count = 0
 
@@ -169,7 +166,6 @@ else:
     to_enjoy = 'Nothing'
 
 print(f'to enjoy {to_enjoy}')
-
 
 a = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 print('middle two: ', a[3:5])
@@ -306,7 +302,8 @@ def get_avg_ratio(numbers):
     scaled.sort(reverse=True)
     return scaled
 
-longest, *middle, shortest = get_avg_ratio([63, 73, 72, 60,67,66,71,61,72,70])
+
+longest, *middle, shortest = get_avg_ratio([63, 73, 72, 60, 67, 66, 71, 61, 72, 70])
 print(f'longest: {longest}')
 print(f'middle: {middle}')
 print(f'shortest: {shortest}')
@@ -334,11 +331,100 @@ def log_types(message: str, when: Optional[datetime] = None) -> None:
 
 log_types('my messatge is clear')
 
+print("Use Comprehension, instead of map")
+print("----------------------------------")
 
-a = [1, 2, 3, 4, 5, 6, 7, 8, 9,10]
-squares = [x**2 for x in a]
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+squares = [x ** 2 for x in a]
 print(squares)
 
-even_squares = [x**2 for x in a if x % 2 == 0]
+alt = map(lambda x: x ** 2, a)
+print(alt)
+
+even_squares = [x ** 2 for x in a if x % 2 == 0]
 print(even_squares)
+
+alt = map(lambda x: x ** 2, filter(lambda x: x % 2 == 0, a))
+print(alt)
+
+even_square_dict = {x: x ** 2 for x in a if x % 2 == 0}
+print(even_square_dict)
+
+stock = {
+    'nails': 125,
+    'screws': 35,
+    'wingnuts': 8,
+    'washers': 24
+}
+
+order = ['screws', 'wingnuts', 'clips']
+
+
+def get_batches(count, size):
+    return count // size
+
+
+print("Avoid repeated work in comprehensions by assignment expression")
+print("----------------------------------")
+result = {}
+for name in order:
+    count = stock.get(name, 0)
+    batches = get_batches(count, 8)
+    if batches:
+        result[name] = batches
+print(result)
+
+found = {name: get_batches(stock.get(name, 0), 8)
+         for name in order
+         if get_batches(stock.get(name, 0), 8)
+         }
+
+print(found)
+
+
+de = {
+    name: batches for name in order
+    if (batches := get_batches(stock.get(name, 0), 8))
+}
+
+print(de)
+
+generator_found = ((name, batches) for name in order if (batches := get_batches(stock.get(name, 0), 8)))
+
+
+print(next(generator_found))
+print(next(generator_found))
+
+
+print("Consider Generators instead of Returning lists")
+print("----------------------------------")
+
+def index_words(text):
+    result = []
+    if text:
+        result.append(0)
+    for index, letter in enumerate(text):
+        if letter == ' ':
+            result.append(index + 1)
+    return result
+
+address = 'Four score and seven years ago...'
+result = index_words(address)
+print(result[:10])
+
+# alternatively with a generator returning an iterator
+def index_words_iter(text):
+    if text:
+        yield 0
+    for index, letter in enumerate(text):
+        if letter == ' ':
+            yield index + 1
+
+it = index_words_iter(address)
+print(next(it))
+print(next(it))
+print(next(it))
+
+# Can still print out the iterator in a list format
+print(list(index_words_iter(address)))
 
