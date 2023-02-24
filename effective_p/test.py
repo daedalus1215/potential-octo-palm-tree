@@ -1,3 +1,5 @@
+from datetime import datetime
+from typing import Optional
 from urllib.parse import parse_qs
 from collections.abc import MutableMapping
 import SetDefaultVisits
@@ -296,3 +298,47 @@ visit2 = DefaultDictVisit.Visits()
 visit2.add('England', 'Bath')
 visit2.add('England', 'London')
 print(visit2.data)
+
+
+def get_avg_ratio(numbers):
+    average = sum(numbers) / len(numbers)
+    scaled = [x / average for x in numbers]
+    scaled.sort(reverse=True)
+    return scaled
+
+longest, *middle, shortest = get_avg_ratio([63, 73, 72, 60,67,66,71,61,72,70])
+print(f'longest: {longest}')
+print(f'middle: {middle}')
+print(f'shortest: {shortest}')
+
+
+def careful_divide(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError as e:
+        raise ValueError('Invalid inputs')
+
+
+def log_types(message: str, when: Optional[datetime] = None) -> None:
+    """ Log a message with a timestamp
+
+    Args:
+            message: Message to print
+            when: dateetime of when the message oxccurred.
+                Defaults to the present time.
+    """
+    if when is None:
+        when = datetime.now()
+    print(f'{when}: {message}')
+
+
+log_types('my messatge is clear')
+
+
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9,10]
+squares = [x**2 for x in a]
+print(squares)
+
+even_squares = [x**2 for x in a if x % 2 == 0]
+print(even_squares)
+
