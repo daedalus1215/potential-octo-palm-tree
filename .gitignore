@@ -6,6 +6,7 @@ az/lib/*
 az/jupyter/*
 az/share/*
 az/etc/*
+az/venv/*
 az/settings.json
 effective_p/bin/*
 effective_p/include/*
@@ -13,3 +14,6 @@ effective_p/lib/*
 algo_trading/bin/*
 algo_trading/include/*
 algo_trading/lib/*
+fin_cook/bin
+fin_cook/include
+fin_cook/lib
